@@ -4,16 +4,9 @@
 
 # A Reinforcement Learning Friendly Simulator for Mobile Robot
 
-
 ![Python](https://img.shields.io/badge/Python-blue)
 ![DRL](https://img.shields.io/badge/DRL-blueviolet)
 ![Mobile Robot](https://img.shields.io/badge/MobileRobot-ff69b4)
-
-
-<div align="center">
-<img width="450px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg" alt="123">
-<img width="450px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg" alt="456">
-</div>
 
 ## Features:
 
@@ -150,19 +143,24 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
 
 There are three coordinate frames in Sparrow as shows bellow. The ground truth position of the robot is calculated in **World Coordiante Frame**, which will be normalized and represented in **Relative Coordiante Frame** to comprise the RL state variable. The **GridCoordiante Frame** comes from *pygame*, used to draw the robot, obstacles, target area, etc.
 
-<div align="left">
-  <a ><img width="450px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg" alt="图片说明"></a>
-  <b ><img width="450px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg" alt="图片说明"></b>
+<div align="center">
+<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg">
 </div>
 
 
 ### Basic Robot Information
 
-The LiDAR perception range is 100cm×270°, with accuracy of 3 cm. The radius of the robot is 9 cm, and its collision threshold is 14 cm. The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, respectively. The control frequency of the robot is 10Hz. We use a simple but useful model to discribe the kinematics of the robot
+The LiDAR perception range is 100cm×270°, with accuracy of 3 cm. The radius of the robot is 9 cm, and its collision threshold is 14 cm. The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, respectively. The control frequency of the robot is 10Hz. 
+
+<div align="center">
+<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/basic_robot_info.svg">
+</div>
+
+We use a simple but useful model to discribe the kinematics of the robot
 
 $$[V^{t+1}_{linear},\ V^{t+1}_{angular}] = K·[V^{t}_{linear},\ V^{t}_{angular}]+(1-K)·[V^{target}_{linear},\ V^{target}_{angular}]$$
 
-Here, **K** is a hyperparameter between (0,1), discribing the combined effect of inertia and friction, default: 0.6. The parameters mentioned in this section can be find in the *Robot initialization* and *Lidar initialization* part of `SparrowV0/envs/sparrow_v0.py` and customized according to your own scenario.
+Here, **K** is a hyperparameter between (0,1), discribing the combined effect of inertia and friction, default: 0.6. The parameters mentioned in this section can be found in the *Robot initialization* and *Lidar initialization* part of `SparrowV0/envs/sparrow_v0.py` and customized according to your own scenario.
 
 ### RL representation
 
@@ -172,10 +170,22 @@ The basic task in Sparrow is about driving the robot from the start point to the
 
 The state of the robot is a vector of lenth 32, containning **position** (*state[0:2] = [dx,dy]*), **orientation** (*state[2]=α*), **Velocity** (*state[3:5]=[v_linear, v_angular]*), **LiDAR** (*state[5:32] = scanning result*). The **position** and **orientation** are illustrated as follows:
 
+<div align="center">
+<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/state_train.svg">
+</div>
+
 These state variables will be normalized into the Relative Coordiante Frame before outputed to the RL model. The position is normalized through:
 
-$[dx_{rt},\ dy_{rt}] = 1 - [dx_{wd},\ dy_{wd}]/366$
+$$[dx_{rt},\ dy_{rt}] = 1 - [dx_{wd},\ dy_{wd}]/366$$
 
 The orientation is normalized as illustrated bellow (from [0, 2π] to [-1, 1]):
 
+<div align="center">
+<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/orientation_normalization.svg">
+</div>
+
 The velocity and the LiDAR is normalized by deviding their maxmum value respectively. We employ such normalized relative state representation for two reason. Fisrt, empirically, the input variable of magnitute between [-1,1] could accelerate the comvergence speed of neural networks. Second, as well as the most prominent reason, the relative coordinate frame could fundamentally improve the generalization ability of the RL model. That is, even we train the RL model in a fixed manner (start from the bottom left corner, end at the upper right corner), the trained model is capable of handling any start-end scenarios as long as their distance is within the maxmum planning distance **D** in the trainning phase, as showes bellow:
+
+<div align="center">
+<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/state_eval.svg">
+</div>
