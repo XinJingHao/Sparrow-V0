@@ -174,11 +174,7 @@ The state of the robot is a vector of lenth 32, containning **position** (*state
 <img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/state_train.svg">
 </div>
 
-These state variables will be normalized into the Relative Coordiante Frame before outputed to the RL model. The position is normalized through:
-
-$$[dx_{rt},\ dy_{rt}] = 1 - [dx_{wd},\ dy_{wd}]/366$$
-
-The orientation is normalized as illustrated bellow (from [0, 2π] to [-1, 1]):
+These state variables will be normalized into the Relative Coordiante Frame before outputed to the RL model. The position is normalized through $[dx_{rt},\ dy_{rt}] = 1 - [dx_{wd},\ dy_{wd}]/366$. And the orientation is normalized as illustrated bellow (from [0, 2π] to [-1, 1]):
 
 <div align="center">
 <img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/orientation_normalization.svg">
