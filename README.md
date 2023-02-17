@@ -1,5 +1,5 @@
 <div align="center">
-  <a ><img width="300px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/LOGO%20sparrow.pdf"></a>
+  <a ><img width="300px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/LOGO%20sparrow.svg"></a>
 </div>
 
 # A Reinforcement Learning Friendly Simulator for Mobile Robot
