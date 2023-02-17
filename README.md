@@ -180,8 +180,52 @@ These state variables will be normalized into the Relative Coordiante Frame befo
 <img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/orientation_normalization.svg">
 </div>
 
-The velocity and the LiDAR is normalized by deviding their maxmum value respectively. We employ such normalized relative state representation for two reason. Fisrt, empirically, the input variable of magnitute between [-1,1] could accelerate the comvergence speed of neural networks. Second, as well as the most prominent reason, the relative coordinate frame could fundamentally improve the generalization ability of the RL model. That is, even we train the RL model in a fixed manner (start from the bottom left corner, end at the upper right corner), the trained model is capable of handling any start-end scenarios as long as their distance is within **D** (the maxmum planning distance in trainning phase).
+The velocity and the LiDAR is normalized by deviding their maxmum value respectively. We employ such normalized relative state representation for two reason. Fisrt, empirically, the input variable of magnitute between [-1,1] could accelerate the comvergence speed of neural networks. Second, as well as the most prominent reason, the relative coordinate frame could fundamentally improve the generalization ability of the RL model. That is, even we train the RL model in a fixed manner (start from the lower left corner, end at the upper right corner), the trained model is capable of handling any start-end scenarios as long as their distance is within **D** (the maxmum planning distance in trainning phase).
 
 <div align="center">
 <img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/state_eval.svg">
 </div>
+
+#### Action:
+There are 6 discrete actions in Sparrow, controling the target velocity of the robot:
+- **Trun Left:** [ 0.36 cm/s, 1 rad/s ]
+- **Trun Left + Move forward:** [ 18 cm/s, 1 rad/s ]
+- **Move forward:** [ 18 cm/s, 0 rad/s ]
+- **Trun Right + Move forward:** [ 18 cm/s, -1 rad/s ]
+- **Trun Right:** [ 0.36 cm/s, -1 rad/s ]
+- **Stop:** [ 0 cm/s, 0 rad/s ]
+We strongly suggest not using the **Stop** action when training a RL model, because it may result the robot in standing still and generate low quality data. You might have also noted that when the robot is turn left or right, we also give it a small linear velocity. We do this to help the robot escape from the deadlock.
+
+#### Reward:
+If the robot collided with the obstacle, it would recieved a negative reward of -10 and the episode would be terminated. If the robot arrived at the target area (the upper right corner of the map), it would recieved a positive reward of 75 and the episode would be terminated as well. Otherwise, the robot would recieve a reward according to:
+$$reward = 0.3r_{d1} + 0.1r_{d2}+0.3r_v+0.3r_{\alpha}+0.1r_{d}$$
+where $r_{d1}$ and $r_{d2}$ are negatively correlated to $d1$ and $d2$ (recall the first illustration in **State** section), with the maximum value of 1; $r_v$=1 if the linear velocity of the robot exceeds half of its maximum linear velocity, otherwise 0; $r_{\alpha}$ is negatively correlated to the absolute value of $\alpha$; $r_d$=-1 if the closest distance between robot and obstacle is smaller than 30 cm, otherwise 0.
+
+#### Termination:
+The episode would be terminated only when the robot collides with the obstacles or reaches the target area.
+
+#### Truncation:
+The episode would be truncated if one of these situations happens:
+- the episode steps exceed 2000
+- the robot rotates more than 1.5 times in place (to prevent the robot from generating low quality data)
+
+### Improving the generalization ability
+In this section, we will introduce four tips incorporated in Sparrow that could improve the generalization ability of the trained model.
+
+#### Random maps:
+To prevent the robot from overfitting in one specific map, we have prepared 16 different trainning maps in `SparrowV0/envs/train_maps`. While trainning, these maps will swap automaticly according to the `self.swap_ferq` in `sparrow_v0.py`. This machanism can be disabled by setting `evaluator_mode=True`. In this case, you have to designate the map you would like to use by passing the absolute address of the map to `eval_map`.
+
+#### Random obstacles:
+You might have noticed that the `SparrowV0/envs/train_maps/map0.png` contains no obstacle, so we will generate some random obstacles when using this maps. For more details, please check the `self._generate_obstacle()`  in `sparrow_v0.py`. These random obstacles could constitute a more diverse state space so as to boost the generalization ability.
+
+#### Random initilization:
+The intial place of the robot could be randomized so that more state space could be explored. To this end, the robot will be randomly initialized according to the map related files in `SparrowV0/envs/train_maps_startpoints`. We have already prepared them for you! But you can also customize your own random initillization files using `SparrowV0/envs/generate_startpoints.py`. 
+Steps:
+- open `generate_startpoints.py` and set the map you are going to working on at `main(map_name='map1')`
+- run `generate_startpoints.py` and use the left mouse botton to designate random initillization points
+- press the `Esc` button to save these points, which would be saved in `SparrowV0/envs/train_maps_startpoints` with the same name as the map in `.npy` format.
+
+
+#### Domain randomization:
+[Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing model trained in simulation to the real wold, and has been elegantly incorporated in Sparrow, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and set `colorful` and `state_noise` to be True, and the simulation parameters (maps, inertia, friction, sensor noise, control period, control delay, ...) would be randomly generated in each stream of the vectorized Sparrow environment.
+
