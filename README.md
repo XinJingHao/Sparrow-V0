@@ -1,3 +1,4 @@
+
 <div align="center">
   <a ><img width="300px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/LOGO%20sparrow.svg"></a>
 </div>
@@ -11,7 +12,7 @@
 ## Features:
 
 - **Vectorizable** (Fast data collection; Also support single Environment)
-- **Domain Randomization** (maps, inertia, friction, sensor noise, control period, control delay, ...)
+- **Domain Randomization** (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps)
 - **Lightweight** (30kb, pure Python files. Only import, never worry about installation)
 - **Accept image as maps** (Customize your own environments easily and rapidly)
 - **Ubuntu/Windows** are both supported
@@ -68,7 +69,7 @@ import gym
 env = gym.make('Sparrow-v0')
 ```
 
-The above commond will create a standard Gym environment, and you can iteract with it via:
+The above commond will create a standard (single) Gym environment, and you can iteract with it via:
 
 ```python
 s, info = env.reset()
@@ -92,7 +93,7 @@ Here, `N`is the number of vectorized environments. In this context, the RL model
 
 ### Basic parameters
 
-There are 9 parameters you could configure when creating Sparrow:
+There are 9 parameters could be configured when creating Sparrow:
 
 ```python
 env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render_mode, render_speed, evaluator_mode, eval_map)
@@ -104,7 +105,8 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
     
   - Should be one of `'cpu'`/`'cuda:0'`. We suggest using `'cuda:0'` (GPU) to accelerate simulation
     
-- **ld_num (int; default `27`)**: number of LiDAR rays.
+- **ld_num (int; default `27`)**: 
+  - number of LiDAR rays.
   
 - **np_state (bool; default `False`)**:
   
@@ -114,17 +116,19 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
     
   - When using vectorized Env, np_state should be True, because gym.vector only support data in *numpy.ndarray*
     
-- **colorful (bool; default `False`)**: if `True`, the follow items will be randomized:
+- **colorful (bool; default `False`)**:
+  - if `True`, the follow items will be randomized:
   
-  - physical parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, magnitude of noise)
+    - physical parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise)
     
-  - initial position of the robot at the beginning of each episode
+    - initial position of the robot at the beginning of each episode
     
-  - maps
+    - maps
     
-- **state_noise (bool; default `False`)**: if `True`, the state of the robot will contain uniformly distributed noise (it doesn't impact the accuracy of simulation)
+- **state_noise (bool; default `False`)**:
+  - if `True`: the state of the robot will contain uniformly distributed noise (it doesn't impact the accuracy of simulation)
   
-- **render_mode (string; default `None`)**: should be one of `"human"` /`"rgb_array"`/ `None`
+- **render_mode (string; default `None`)**: 
   
   - `"human"`: render in a pygame window
     
@@ -132,11 +136,14 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
     
   - `None`: not render anything
     
-- **render_speed (string; default `'fast'`)**: control the rendering speed, should be one of `'fast'`/`'real'`/`'slow'`
+- **render_speed (string; default `'fast'`)**:
+  -  control the rendering speed, should be one of `'fast'`/`'real'`/`'slow'`
   
-- **evaluator_mode (bool; default `False`)**: if `True`, *env.reset()* will not swap maps and robot will always be initialized in bottom left corner.
+- **evaluator_mode (bool; default `False`)**: 
+  - if `True`, *env.reset()* will not swap maps and robot will always be initialized in bottom left corner.
   
-- **eval_map (string; default `None`)**: if *evaluator_mode=True*, you need to designate the map on which you want to evaluate. And *eval_map* should be its absolute address, e.g. `os.getcwd()+'SparrowV0/envs/train_maps/map4.png'`
+- **eval_map (string; default `None`)**:
+  -  if *evaluator_mode=True*, you need to designate the map on which you want to evaluate. And *eval_map* should be its absolute address, e.g. `os.getcwd()+'SparrowV0/envs/train_maps/map4.png'`
   
  
 <img src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg" align="right" width="25%"/>
@@ -186,6 +193,7 @@ There are 6 discrete actions in Sparrow, controling the target velocity of the r
 - **Trun Right + Move forward:** [ 18 cm/s, -1 rad/s ]
 - **Trun Right:** [ 0.36 cm/s, -1 rad/s ]
 - **Stop:** [ 0 cm/s, 0 rad/s ]
+
 We strongly suggest not using the **Stop** action when training a RL model, because it may result the robot in standing still and generate low quality data. You might have also noted that when the robot is turn left or right, we also give it a small linear velocity. We do this to help the robot escape from the deadlock.
 
 #### Reward:
@@ -218,5 +226,5 @@ Steps:
 - press the `Esc` button to save these points, which would be saved in `SparrowV0/envs/train_maps_startpoints` with the same name as the map in `.npy` format.
 
 #### Domain randomization:
-[Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing model trained in simulation to the real wold, and has been elegantly incorporated in Sparrow, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and set `colorful` and `state_noise` to be True, and the simulation parameters (maps, inertia, friction, sensor noise, control period, control delay, ...) would be randomly generated in each stream of the vectorized Sparrow environment.
+[Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing model trained in simulation to the real wold, and has been elegantly incorporated in Sparrow, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and set `colorful` and `state_noise` to be True, and the simulation parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps) would be randomly generated in each stream of the vectorized Sparrow environment.
 
