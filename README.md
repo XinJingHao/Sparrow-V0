@@ -228,3 +228,17 @@ Steps:
 #### Domain randomization:
 [Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing model trained in simulation to the real wold, and has been elegantly incorporated in Sparrow, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and set `colorful` and `state_noise` to be True, and the simulation parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps) would be randomly generated in each stream of the vectorized Sparrow environment.
 
+### Simulation Speed
+If `render_mode=None` or `render_mode="rgb_array"`, Sparrow would run at its maximum simulation speed (depending on the hardware). However, if `render_mode="human"`, there would be three options regarding the simulation speed:
+- `render_speed == 'fast'`: render the Sparrow in a pygame window with maximum FPS
+- `render_speed == 'slow'`: render the Sparrow in a pygame window with 5 FPS. Might be useful when debuging.
+- `render_speed == 'real'`: render the Sparrow in a pygame window with **1/ctrl_interval** FPS, in accordance with the real world speed.
+
+### Customize your own maps
+Sparrow takes `.png` images as its maps, e.g. the `map0.png`~`map15.png` in `SparrowV0/envs/train_maps/`. Therefore, you can draw your own maps with any image process software easily and conveniently, as long as it satisfies the following requirements:
+- saved in `.png` format
+- resolution (namely the map size) equals to 366×366
+- obstacles are in black (0,0,0) and free space is in white (255,255,255)
+- adding a fence to surround the map so that the robot cannot run out of the map
+
+**Important:** please do not delate or modify the `SparrowV0/envs/train_maps/map0.png`
