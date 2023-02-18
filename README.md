@@ -157,7 +157,7 @@ There are three coordinate frames in Sparrow as shows right. The ground truth po
 
 The LiDAR perception range is 100cm×270°, with accuracy of 3 cm. The radius of the robot is 9 cm, and its collision threshold is 14 cm. 
 
-<img src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/basic_robot_info.svg" align="right" width="20%"/>
+<img src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/basic_robot_info.svg" align="right" width="25%"/>
 
 The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, respectively. The control frequency of the robot is 10Hz. And we use a simple but useful model to discribe the kinematics of the robot
 
