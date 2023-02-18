@@ -145,7 +145,7 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
 - **eval_map (string; default `None`)**:
   -  if *evaluator_mode=True*, you need to designate the map on which you want to evaluate. And *eval_map* should be its absolute address, e.g. `os.getcwd()+'SparrowV0/envs/train_maps/map4.png'`
   
- 
+
 <img src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg" align="right" width="25%"/>
 
 ### Coordinate Frames
