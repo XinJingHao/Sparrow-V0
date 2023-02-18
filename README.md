@@ -138,29 +138,27 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
   
 - **eval_map (string; default `None`)**: if *evaluator_mode=True*, you need to designate the map on which you want to evaluate. And *eval_map* should be its absolute address, e.g. `os.getcwd()+'SparrowV0/envs/train_maps/map4.png'`
   
+ 
+<img src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg" align="right" width="25%"/>
 
 ### Coordinate Frames
 
-There are three coordinate frames in Sparrow as shows bellow. The ground truth position of the robot is calculated in **World Coordiante Frame**, which will be normalized and represented in **Relative Coordiante Frame** to comprise the RL state variable. The **GridCoordiante Frame** comes from *pygame*, used to draw the robot, obstacles, target area, etc.
-
-<div align="center">
-<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/coordinate_frames.svg">
-</div>
+There are three coordinate frames in Sparrow as shows right. The ground truth position of the robot is calculated in **World Coordiante Frame**, which will be normalized and represented in **Relative Coordiante Frame** to comprise the RL state variable. The **GridCoordiante Frame** comes from *pygame*, used to draw the robot, obstacles, target area, etc.
 
 
 ### Basic Robot Information
 
-The LiDAR perception range is 100cm×270°, with accuracy of 3 cm. The radius of the robot is 9 cm, and its collision threshold is 14 cm. The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, respectively. The control frequency of the robot is 10Hz. 
+The LiDAR perception range is 100cm×270°, with accuracy of 3 cm. The radius of the robot is 9 cm, and its collision threshold is 14 cm. 
 
-<div align="center">
-<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/basic_robot_info.svg">
-</div>
+<img src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/basic_robot_info.svg" align="right" width="20%"/>
 
-We use a simple but useful model to discribe the kinematics of the robot
+The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, respectively. The control frequency of the robot is 10Hz. And we use a simple but useful model to discribe the kinematics of the robot
 
 $$[V^{t+1}_{linear},\ V^{t+1}_{angular}] = K·[V^{t}_{linear},\ V^{t}_{angular}]+(1-K)·[V^{target}_{linear},\ V^{target}_{angular}]$$
 
 Here, **K** is a hyperparameter between (0,1), discribing the combined effect of inertia and friction, default: 0.6. The parameters mentioned in this section can be found in the *Robot initialization* and *Lidar initialization* part of `SparrowV0/envs/sparrow_v0.py` and customized according to your own scenario.
+
+
 
 ### RL representation
 
@@ -168,23 +166,17 @@ The basic task in Sparrow is about driving the robot from the start point to the
 
 #### State:
 
-The state of the robot is a vector of lenth 32, containning **position** (*state[0:2] = [dx,dy]*), **orientation** (*state[2]=α*), **Velocity** (*state[3:5]=[v_linear, v_angular]*), **LiDAR** (*state[5:32] = scanning result*). The **position** and **orientation** are illustrated as follows:
+The state of the robot is a vector of lenth 32, containning **position** (*state[0:2] = [dx,dy]*), **orientation** (*state[2]=α*), **Velocity** (*state[3:5]=[v_linear, v_angular]*), **LiDAR** (*state[5:32] = scanning result*). The **position** and **orientation** are illustrated as bellow(left). These state variables will be normalized into the Relative Coordiante Frame before fed to the RL model. The velocity and the LiDAR is normalized by deviding their maxmum value respectively. The position is normalized through $[dx_{rt},\ dy_{rt}] = 1 - [dx_{wd},\ dy_{wd}]/366$. And the orientation is normalized as illustrated bellow (right):
 
 <div align="center">
-<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/state_train.svg">
+<img width="40.5%" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/state_train.svg">
+<img width="38%" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/orientation_normalization.svg">
 </div>
 
-These state variables will be normalized into the Relative Coordiante Frame before outputed to the RL model. The position is normalized through $[dx_{rt},\ dy_{rt}] = 1 - [dx_{wd},\ dy_{wd}]/366$. And the orientation is normalized as illustrated bellow (from [0, 2π] to [-1, 1]):
+<img src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/state_eval.svg" align="right" width="20%"/>
 
-<div align="center">
-<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/orientation_normalization.svg">
-</div>
+We employ such normalized relative state representation for two reason. Fisrt, empirically, the input variable of magnitute between [-1,1] could accelerate the comvergence speed of neural networks. Second, as well as the most prominent reason, the relative coordinate frame could fundamentally improve the generalization ability of the RL model. That is, even we train the RL model in a fixed manner (start from the lower left corner, end at the upper right corner), the trained model is capable of handling any start-end scenarios as long as their distance is within **D** (the maxmum planning distance in trainning phase), as illustrated right:
 
-The velocity and the LiDAR is normalized by deviding their maxmum value respectively. We employ such normalized relative state representation for two reason. Fisrt, empirically, the input variable of magnitute between [-1,1] could accelerate the comvergence speed of neural networks. Second, as well as the most prominent reason, the relative coordinate frame could fundamentally improve the generalization ability of the RL model. That is, even we train the RL model in a fixed manner (start from the lower left corner, end at the upper right corner), the trained model is capable of handling any start-end scenarios as long as their distance is within **D** (the maxmum planning distance in trainning phase).
-
-<div align="center">
-<img width="360px" height="auto" src="https://github.com/XinJingHao/Sparrow-V0/blob/main/Imgs/state_eval.svg">
-</div>
 
 #### Action:
 There are 6 discrete actions in Sparrow, controling the target velocity of the robot:
@@ -224,7 +216,6 @@ Steps:
 - open `generate_startpoints.py` and set the map you are going to working on at `main(map_name='map1')`
 - run `generate_startpoints.py` and use the left mouse botton to designate random initillization points
 - press the `Esc` button to save these points, which would be saved in `SparrowV0/envs/train_maps_startpoints` with the same name as the map in `.npy` format.
-
 
 #### Domain randomization:
 [Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing model trained in simulation to the real wold, and has been elegantly incorporated in Sparrow, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and set `colorful` and `state_noise` to be True, and the simulation parameters (maps, inertia, friction, sensor noise, control period, control delay, ...) would be randomly generated in each stream of the vectorized Sparrow environment.
