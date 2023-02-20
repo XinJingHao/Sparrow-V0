@@ -159,7 +159,7 @@ There are three coordinate frames in Sparrow as shows right. The ground truth po
 
 The LiDAR perception range is 100cm×270°, with accuracy of 3 cm. The radius of the robot is 9 cm, and its collision threshold is 14 cm. 
 
-<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/basic_robot_info.svg" align="right" width="25%"/>
+<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/basic_robot_info.svg" align="right" width="32%"/>
 
 The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, respectively. The control frequency of the robot is 10Hz. And we use a simple but useful model to discribe the kinematics of the robot
 
@@ -182,7 +182,7 @@ The state of the robot is a vector of lenth 32, containning **position** (*state
 <img width="38%" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/orientation_normalization.svg">
 </div>
 
-<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/state_eval.svg" align="right" width="25%"/>
+<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/state_eval.svg" align="right" width="32%"/>
 
 We employ such normalized relative state representation for two reason. Fisrt, empirically, the input variable of magnitute between [-1,1] could accelerate the comvergence speed of neural networks. Second, as well as the most prominent reason, the relative coordinate frame could fundamentally improve the generalization ability of the RL model. That is, even we train the RL model in a fixed manner (start from the lower left corner, end at the upper right corner), the trained model is capable of handling any start-end scenarios as long as their distance is within **D** (the maxmum planning distance in trainning phase), as illustrated right:
 
