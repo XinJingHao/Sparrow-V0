@@ -74,7 +74,7 @@ The above commond will create a standard (single) Gym environment, and you can i
 ```python
 s, info = env.reset()
 done = False
-While not done:
+while not done:
     a = model(s) # your own RL model
     s_next, r, terminated, truncated, info = env.step(a)
     done = terminated + truncated
