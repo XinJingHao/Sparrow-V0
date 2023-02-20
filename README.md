@@ -5,6 +5,10 @@
 
 # A Reinforcement Learning Friendly Simulator for Mobile Robot
 
+<div align="center">
+<img width="100%" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/Show_SparrowV0.gif">
+</div>
+
 ![Python](https://img.shields.io/badge/Python-blue)
 ![DRL](https://img.shields.io/badge/DRL-blueviolet)
 ![Mobile Robot](https://img.shields.io/badge/MobileRobot-ff69b4)
