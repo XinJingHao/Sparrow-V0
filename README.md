@@ -86,7 +86,9 @@ As we have mentioned, Sparrow is **vectoriable**, so you can create a vectorized
 import SparrowV0
 import gym
 
-envs = gym.vector.AsyncVectorEnv([lambda: gym.make('Sparrow-v0', np_state = True) for _ in range(N)])
+if __name__ == '__main__':
+    N = 4
+    envs = gym.vector.AsyncVectorEnv([lambda: gym.make('Sparrow-v0', np_state = True) for _ in range(N)])
 ```
 
 Here, `N`is the number of vectorized environments. In this context, the RL model should iteract with the environment in a batched manner. And the dimension of **s, a, r, terminated, truncated** are **(N,32), (N,), (N,), (N,), (N,)** respectively. Note that **np_state=Ture** means the state will be returned in *numpy.narray*. More parameter setting will be introduced in the next section.
