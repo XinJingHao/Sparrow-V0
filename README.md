@@ -72,7 +72,7 @@ python train_DDQN_vector.py --actor_envs 5
 
 ### Visulize the training curve:
 
-<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/ep_r.svg" align="right" width="40%"/>
+<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/ep_r.svg" align="right" width="37%"/>
 
 For both scripts, we have incorporated **tensorboard** to visualize the trianing curve, as shown in the right. To enable it, you can just set the `write` to True, e.g.
 ```bash
