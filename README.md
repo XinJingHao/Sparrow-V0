@@ -15,12 +15,12 @@
 
 ## Features:
 
-- **Vectorizable** (Fast data collection; Also support single Environment)
-- **Domain Randomization** (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps)
+- **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Fast data collection; Also support single Environment)
+- **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps)
 - **Lightweight** (30kb, pure Python files. Only import, never worry about installation)
 - **Accept image as maps** (Customize your own environments easily and rapidly)
 - **Ubuntu/Windows** are both supported
-- **Standard Gym API with both Pytorch/Numpy data flow**
+- **Standard Gym API with both [Pytorch](https://pytorch.org/)/[Numpy](https://numpy.org/) data flow**
 - **GPU/CPU are both acceptable** (If you use Pytorch to build your RL model, you can run you RL model and Sparrow both on GPU. Then you don't need to transfer the transitions from CPU to GPU anymore.)
 
 ## Installation:
