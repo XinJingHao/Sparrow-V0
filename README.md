@@ -273,4 +273,26 @@ Sparrow takes `.png` images as its maps, e.g. the `map0.png`~`map15.png` in `Spa
 - obstacles are in black (0,0,0) and free space is in white (255,255,255)
 - adding a fence to surround the map so that the robot cannot run out of the map
 
-**Important:** please do not delate or modify the `SparrowV0/envs/train_maps/map0.png`
+**Important:** please do not delete or modify the `SparrowV0/envs/train_maps/map0.png`
+
+### AutoReset
+The environment copies inside a vectorized environment may be done (terminated or truncated) in different timesteps. Consequently, it is inefficient or even improper to call the *env.reset()* function to reset all copies whenever one copy is done, necessitating the design of **AutoReset** machanism. Since the Sparrow inherits the `gym.vector`, it also inherits its AutoReset machanism. That is, whenever the *env.step()* leads to ternimation or truncation, it will reset the current episode immediately and output the reseted state (rather than the next state), as illustrated bellow:
+
+<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/AutoReset.svg" align="center" width="100%"/>
+
+## Citing the Project
+
+To cite this repository in publications:
+
+```bibtex
+@misc{Sparrow_v0,
+  author = {Jinghao Xin},
+  title = {Sparrow: A Reinforcement Learning Friendly Simulator for Mobile Robot},
+  year = {2023},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/XinJingHao/Sparrow-V0}},
+}
+```
+## Writing in the end
+The name "Sparrow" accturally comes from an old saying “The sparrow may be small but it has all the vital organs.” Holp you enjoy using Sparrow! Additionally, we have made detailed comments on the source code (`SparrowV0/envs/sparrow_v0.py`) so that you can modify Sparrow to fit your own problem. But only for non-commercial purposes, and all rights are reserved by [Jinghao Xin](https://github.com/XinJingHao).
