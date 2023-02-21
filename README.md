@@ -33,7 +33,7 @@ gym >= 0.26.2
 pygame >= 2.1.2
 numpy >= 1.23.4
 ```
-You can install **torch** by following the guidance from its [Official website](https://pytorch.org/get-started/locally/). We strongly suggest you install the **CUDA 11.7** version.
+You can install **torch** by following the guidance from its [official website](https://pytorch.org/get-started/locally/). We strongly suggest you install the **CUDA 11.7** version, but CPU version or lower CUDA version are also supported.
 
 Then you can install **gym**, **pygame**, **numpy** via:
 
