@@ -295,4 +295,6 @@ To cite this repository in publications:
 }
 ```
 ## Writing in the end
-The name "Sparrow" accturally comes from an old saying “The sparrow may be small but it has all the vital organs.” Holp you enjoy using Sparrow! Additionally, we have made detailed comments on the source code (`SparrowV0/envs/sparrow_v0.py`) so that you can modify Sparrow to fit your own problem. But only for non-commercial purposes, and all rights are reserved by [Jinghao Xin](https://github.com/XinJingHao).
+The name "Sparrow" accturally comes from an old saying *“The sparrow may be small but it has all the vital organs.”* 
+
+Holp you enjoy using Sparrow! Additionally, we have made detailed comments on the source code (`SparrowV0/envs/sparrow_v0.py`) so that you can modify Sparrow to fit your own problem. But only for non-commercial purposes, and all rights are reserved by [Jinghao Xin](https://github.com/XinJingHao).
