@@ -16,7 +16,7 @@
 ## Features
 
 - **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Fast data collection; Single environment is also supported)
-- **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps can be randomized while training)
+- **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise and maps can be randomized while training)
 - **Lightweight** (30kb, pure Python files. Only import, never worry about installation)
 - **Accept image as maps** (Customize your own environments easily and rapidly)
 - **Ubuntu/Windows** are both supported
