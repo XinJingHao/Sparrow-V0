@@ -199,7 +199,7 @@ Here, **K** is a hyperparameter between (0,1), describing the combined effect of
 
 ### RL representation:
 
-The basic task in Sparrow is about driving the robot from the start point to the end point without colliding with the obstacles as fast as possible. To this end, in the following sub sections, we will define several basic components in Markov Decision Process.
+The basic task in Sparrow is about driving the robot from the start point to the end point as fast as possible, without colliding with the obstacles. To this end, in the following sub sections, we will define several basic components in Markov Decision Process.
 
 #### State:
 
