@@ -249,8 +249,7 @@ To prevent the robot from overfitting in one specific map, we have prepared 16 d
 You might have noticed that the `SparrowV0/envs/train_maps/map0.png` contains no obstacle, so we will generate some random obstacles when using this map. For more details, please check the `self._generate_obstacle()`  in `sparrow_v0.py`. These random obstacles could constitute a more diverse state space so as to boost the generalization ability.
 
 #### Random initialization:
-The initial place of the robot could be randomized so that more state space could be explored. To this end, the robot will be randomly initialized according to the map related files in `SparrowV0/envs/train_maps_startpoints`. We have already prepared them for you! But you can also customize your own random initialization files using `SparrowV0/envs/generate_startpoints.py`. 
-Steps:
+The initial place of the robot could be randomized so that more state space could be explored. To this end, the robot will be randomly initialized according to the map related files in `SparrowV0/envs/train_maps_startpoints`. We have already prepared them for you! But you can also customize your own random initialization files using `SparrowV0/envs/generate_startpoints.py`:
 - open `generate_startpoints.py` and set the map you are going to working on at `main(map_name='map1')`
 - run `generate_startpoints.py` and use the left mouse button to designate random initialization points
 - press the `Esc` button to save these points, which would be saved in `SparrowV0/envs/train_maps_startpoints` with the same name as the map in `.npy` format.
