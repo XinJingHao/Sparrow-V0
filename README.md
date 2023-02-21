@@ -163,7 +163,7 @@ env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, rende
   
   - `"human"`: render in a pygame window
     
-  - `"rgb_array"`: *env.render()* will return the airscape of the robot in *numpy.ndarray*
+  - `"rgb_array"`: call *env.render()* will return the airscape of the robot in *numpy.ndarray*
     
   - `None`: not render anything
     
@@ -171,7 +171,7 @@ env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, rende
   -  control the rendering speed; should be one of `'fast'`/`'real'`/`'slow'`
   
 - **evaluator_mode (bool; default `False`)**: 
-  - if `True`, *env.reset()* will not swap maps and the robot will always be initialized in the bottom left corner.
+  - if `True`, *env.reset()* will not swap maps and the robot will always be initialized in the lower left corner.
   
 - **eval_map (string; default `None`)**:
   -  if *evaluator_mode=True*, you need to designate the map on which you want to evaluate. And *eval_map* should be its absolute address, e.g. `os.getcwd()+'SparrowV0/envs/train_maps/map4.png'`
@@ -204,7 +204,7 @@ The basic task in Sparrow is about driving the robot from the start point to the
 
 #### State:
 
-The state of the robot is a vector of length 32, containing **position** (*state[0:2] = [dx,dy]*), **orientation** (*state[2]=α*), **Velocity** (*state[3:5]=[v_linear, v_angular]*), **LiDAR** (*state[5:32] = scanning result*). The **position** and **orientation** are illustrated below(left). These state variables will be normalized into the Relative Coordinate Frame before being fed to the RL model. The velocity and the LiDAR are normalized by dividing their maximum value respectively. The position is normalized through $[dx_{rt},\ dy_{rt}] = 1 - [dx_{wd},\ dy_{wd}]/366$. And the orientation is normalized as illustrated below (right):
+The state of the robot is a vector of length 32, containing **position** (*state[0:2] = [dx,dy]*), **orientation** (*state[2]=α*), **velocity** (*state[3:5]=[v_linear, v_angular]*), **LiDAR** (*state[5:32] = scanning result*). The **position** and **orientation** are illustrated below(left). These state variables will be normalized into the Relative Coordinate Frame before being fed to the RL model. The velocity and the LiDAR are normalized by dividing their maximum value respectively. The position is normalized through $[dx_{rt},\ dy_{rt}] = 1 - [dx_{wd},\ dy_{wd}]/366$. And the orientation is normalized as illustrated below (right):
 
 <div align="center">
 <img width="40.5%" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/state_train.svg">
@@ -250,7 +250,7 @@ To prevent the robot from overfitting in one specific map, we have prepared 16 d
 You might have noticed that the `SparrowV0/envs/train_maps/map0.png` contains no obstacles, so we will generate some random obstacles when using this map. For more details, please check the `self._generate_obstacle()`  in `sparrow_v0.py`. These random obstacles could constitute a more diverse state space so as to boost the generalization ability.
 
 #### Random initialization:
-The initial place of the robot could be randomized so that more state space could be explored. To this end, the robot will be randomly initialized according to the map-related files in `SparrowV0/envs/train_maps_startpoints`. We have already prepared them for you! But you can also customize your own random initialization files using `SparrowV0/envs/generate_startpoints.py`:
+The initial place of the robot could be randomized so that more state space could be explored. To this end, the robot will be randomly initialized according to the map-related files in `SparrowV0/envs/train_maps_startpoints`. We have already prepared them for you! But you can also customize your own random initialization files using `SparrowV0/envs/generate_startpoints.py` by:
 - open `generate_startpoints.py` and set the map you are going to work on at `main(map_name='map1')`
 - run `generate_startpoints.py` and use the left mouse button to designate random initialization points
 - press the `Esc` button to save these points, which would be saved in `SparrowV0/envs/train_maps_startpoints` with the same name as the map in `.npy` format.
