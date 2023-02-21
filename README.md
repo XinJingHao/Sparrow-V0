@@ -273,7 +273,7 @@ Sparrow takes `.png` images as its maps, e.g. the `map0.png`~`map15.png` in `Spa
 **Important:** please do not delete or modify the `SparrowV0/envs/train_maps/map0.png`
 
 ### AutoReset:
-The environment copies inside a vectorized environment may be done (terminated or truncated) in different timesteps. Consequently, it is inefficient or even improper to call the *env.reset()* function to reset all copies whenever one copy is done, necessitating the design of **AutoReset** mechanism. Since the Sparrow inherits the `gym.vector`, it also inherits its AutoReset mechanism. That is, whenever the *env.step()* leads to termination or truncation, it will reset the current episode immediately and output the reset state (rather than the next state), as illustrated bellow:
+The environment copies inside a vectorized environment may be done (terminated or truncated) in different timesteps. Consequently, it is inefficient or even improper to call the *env.reset()* function to reset all copies whenever one copy is done, necessitating the design of **AutoReset** mechanism. Since the Sparrow inherits the `gym.vector`, it also inherits its AutoReset mechanism. That is, whenever the *env.step()* of a copy of environment leads to termination or truncation, it will reset its current episode immediately and output the reset state (rather than the next state), as illustrated bellow:
 
 <img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/AutoReset.svg" align="center" width="100%"/>
 
