@@ -50,7 +50,7 @@ python play_with_keyboard.py
 ```
 
 ## Train a DDQN model with Sparrow
-The Sparrow is mobile robot simulator mainly designed for Deep Reinforcement Learning. In this section, we have prepared two python scripts to show you how to train a [DDQN](https://ojs.aaai.org/index.php/AAAI/article/download/10295/10154) model (Other Pytorch implementation of popular DRL algorithm is available at [here](https://github.com/XinJingHao/RL-Algorithms-by-Pytorch)) with **single** Sparrow and **vectorized** Sparrow. 
+The Sparrow is mobile robot simulator mainly designed for Deep Reinforcement Learning. In this section, we have prepared two python scripts to show you how to train a [DDQN](https://ojs.aaai.org/index.php/AAAI/article/download/10295/10154) model (Other Pytorch implementations of popular DRL algorithms are available at [here](https://github.com/XinJingHao/RL-Algorithms-by-Pytorch)) with **single** Sparrow and **vectorized** Sparrow. 
 
 ### Start training:
 To train a DDQN model with **single** Sparrow, you can run:
