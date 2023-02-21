@@ -51,14 +51,39 @@ After installation, you can play with Sparrow with your keyboard (up/down/left/r
 python play_with_keyboard.py
 ```
 
-## Train a DQN agent with Sparrow:
+## Train a DDQN model with Sparrow:
+The Sparrow is mobile robot simulator mainly designed for Deep Reinforcement Learning. In this section, we have prepared two python scripts to show you how to train a [DDQN](https://ojs.aaai.org/index.php/AAAI/article/download/10295/10154) model with **single** Sparrow and **vectorized** Sparrow.
 
+### Start training:
+To train a DDQN model with **single** Sparrow, you can run:
 ```bash
-python train_DQN_single.py
+python train_DDQN_single.py
 ```
 
+In order to facilitate data collection and take full advantage of the parallel computing of GPU, you can use the vectorized version of Sparrow. To train a DDQN model with **vectorized** Sparrow, you can run:
 ```bash
-python train_DQN_vector.py
+python train_DDQN_vector.py
+```
+
+By default, the above two scripts will run on your GPU, if GPU is accessable, otherwise CPU. Specifically, in `train_DDQN_vector.py`, the Sparrow is vectorized by 10 copies. If this exceeds your maximum GPU memories, you can reduce the copies by setting fewer `actor_envs`:
+```bash
+python train_DDQN_vector.py --actor_envs 5
+```
+
+### Visulize the training curve:
+
+<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/ep_r.svg" align="right" width="32%"/>
+
+For both scripts, we have incorporated **tensorboard** to visualize the trianing curve, as shown in the right. To enable it, you can just set the `write` to True, e.g.
+```bash
+python train_DDQN_single.py --write True
+```
+The training curve will be saved at the `runs` folder, for more details about how to install and use tensorboard, please click [here](https://pytorch.org/docs/stable/tensorboard.html). Also, you are free to use your own data visulization tools by modifying the scripts.
+
+### Play with trained model:
+During training, the DDQN model will be saved at the `model` folder every 10k steps (e.g. `model/10k.pth`). You can play with it via:
+```bash
+python train_DDQN_single.py --render True --Loadmodel True --ModelIdex 10
 ```
 
 ## Dive into Sparrow:
