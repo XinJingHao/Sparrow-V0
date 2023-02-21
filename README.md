@@ -15,7 +15,7 @@
 
 ## Features:
 
-- **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Fast data collection; Also support single Environment)
+- **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Fast data collection; Single environment is also supported)
 - **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps)
 - **Lightweight** (30kb, pure Python files. Only import, never worry about installation)
 - **Accept image as maps** (Customize your own environments easily and rapidly)
@@ -72,7 +72,7 @@ python train_DDQN_vector.py --actor_envs 5
 
 ### Visulize the training curve:
 
-<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/ep_r.svg" align="right" width="32%"/>
+<img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/ep_r.svg" align="right" width="40%"/>
 
 For both scripts, we have incorporated **tensorboard** to visualize the trianing curve, as shown in the right. To enable it, you can just set the `write` to True, e.g.
 ```bash
@@ -81,7 +81,7 @@ python train_DDQN_single.py --write True
 The training curve will be saved at the `runs` folder, for more details about how to install and use tensorboard, please click [here](https://pytorch.org/docs/stable/tensorboard.html). Also, you are free to use your own data visulization tools by modifying the scripts.
 
 ### Play with trained model:
-During training, the DDQN model will be saved at the `model` folder every 10k steps (e.g. `model/10k.pth`). You can play with it via:
+During training, the DDQN model will be saved at the `model` folder every 10k steps (e.g. `model/10k.pth`). After training, you can play with it via:
 ```bash
 python train_DDQN_single.py --render True --Loadmodel True --ModelIdex 10
 ```
