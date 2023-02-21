@@ -30,17 +30,18 @@ The dependencies for Sparrow are:
 ```bash
 gym >= 0.26.2
 pygame >= 2.1.2
-numpy >= 1.24.2
+numpy >= 1.23.4
 torch >= 1.13.1
 ```
+You can install **torch** by following the guidence from its [Official website](https://pytorch.org/get-started/locally/). We strongly suggest you install the **CUDA 11.7** version.
 
 You can install **gym**, **pygame**, **numpy** via:
 
 ```bash
-pip3 install gym==0.26.2 pygame==2.1.2 numpy==1.24.2
+pip3 install gym==0.26.2 pygame==2.1.2 numpy==1.23.4
 ```
 
-You can install **torch** by following the guidence from its [Official website](https://pytorch.org/get-started/locally/). We strongly suggest you install the **CUDA 11.7** version.
+
 
 ## Quick Start:
 
@@ -105,7 +106,7 @@ There are 9 parameters could be configured when creating Sparrow:
 env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render_mode, render_speed, evaluator_mode, eval_map)
 ```
 
-- **dvc (string; default `'cuda:0'`)**:
+- **dvc (string; default `'cpu'`)**:
   
   - The device that runs the Sparrow
     
