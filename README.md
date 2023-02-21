@@ -127,7 +127,7 @@ Here, `N`is the number of vectorized environments. In this context, the RL model
 There are 9 parameters that could be configured when creating Sparrow:
 
 ```python
-env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render_mode, render_speed, evaluator_mode, eval_map)
+env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, render_mode, render_speed, evaluator_mode, eval_map)
 ```
 
 - **dvc (string; default `'cpu'`)**:
