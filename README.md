@@ -13,7 +13,7 @@
 ![DRL](https://img.shields.io/badge/DRL-blueviolet)
 ![Mobile Robot](https://img.shields.io/badge/MobileRobot-ff69b4)
 
-## Features:
+## Features
 
 - **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Fast data collection; Single environment is also supported)
 - **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps)
@@ -23,7 +23,7 @@
 - **Standard Gym API with both [Pytorch](https://pytorch.org/)/[Numpy](https://numpy.org/) data flow**
 - **GPU/CPU are both acceptable** (If you use Pytorch to build your RL model, you can run you RL model and Sparrow both on GPU. Then you don't need to transfer the transitions from CPU to GPU anymore.)
 
-## Installation:
+## Installation
 
 The dependencies for Sparrow are:
 
@@ -41,9 +41,7 @@ Then you can install **gym**, **pygame**, **numpy** via:
 pip3 install gym==0.26.2 pygame==2.1.2 numpy==1.23.4
 ```
 
-
-
-## Quick Start:
+## Quick Start
 
 After installation, you can play with Sparrow with your keyboard (up/down/left/right button) to test if you have installed it succesfully :
 
@@ -51,7 +49,7 @@ After installation, you can play with Sparrow with your keyboard (up/down/left/r
 python play_with_keyboard.py
 ```
 
-## Train a DDQN model with Sparrow:
+## Train a DDQN model with Sparrow
 The Sparrow is mobile robot simulator mainly designed for Deep Reinforcement Learning. In this section, we have prepared two python scripts to show you how to train a [DDQN](https://ojs.aaai.org/index.php/AAAI/article/download/10295/10154) model (Other Pytorch implementation of popular DRL algorithm is avaliable at [here](https://github.com/XinJingHao/RL-Algorithms-by-Pytorch)) with **single** Sparrow and **vectorized** Sparrow. 
 
 ### Start training:
@@ -86,9 +84,9 @@ During training, the DDQN model will be saved at the `model` folder every 10k st
 python train_DDQN_single.py --render True --Loadmodel True --ModelIdex 10
 ```
 
-## Dive into Sparrow:
+## Dive into Sparrow
 
-### Create your first env
+### Create your first env:
 
 Since Sparrow has standard [Gym](https://www.gymlibrary.dev/) API, you can create the Sparrow environment via:
 
@@ -123,7 +121,7 @@ if __name__ == '__main__':
 
 Here, `N`is the number of vectorized environments. In this context, the RL model should iteract with the environment in a batched manner. And the dimension of **s, a, r, terminated, truncated** are **(N,32), (N,), (N,), (N,), (N,)** respectively. Note that **np_state=Ture** means the state will be returned in *numpy.narray*. More parameter setting will be introduced in the next section.
 
-### Basic parameters
+### Basic parameters:
 
 There are 9 parameters could be configured when creating Sparrow:
 
@@ -180,12 +178,12 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
 
 <img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/coordinate_frames.svg" align="right" width="25%"/>
 
-### Coordinate Frames
+### Coordinate Frames:
 
 There are three coordinate frames in Sparrow as shows right. The ground truth position of the robot is calculated in **World Coordiante Frame**, which will be normalized and represented in **Relative Coordiante Frame** to comprise the RL state variable. The **GridCoordiante Frame** comes from *pygame*, used to draw the robot, obstacles, target area, etc.
 
 
-### Basic Robot Information
+### Basic Robot Information:
 
 The LiDAR perception range is 100cm×270°, with accuracy of 3 cm. The radius of the robot is 9 cm, and its collision threshold is 14 cm. 
 
@@ -199,7 +197,7 @@ Here, **K** is a hyperparameter between (0,1), discribing the combined effect of
 
 
 
-### RL representation
+### RL representation:
 
 The basic task in Sparrow is about driving the robot from the start point to the end point without colliding with the obstacles as fast as possible. To this end, in the following sub sections, we will define several basic components in Markove Decision Process.
 
@@ -241,7 +239,7 @@ The episode would be truncated if one of these situations happens:
 - the episode steps exceed 2000
 - the robot rotates more than 1.5 times in place (to prevent the robot from generating low quality data)
 
-### Improving the generalization ability
+### Improving the generalization ability:
 In this section, we will introduce four tips incorporated in Sparrow that could improve the generalization ability of the trained model.
 
 #### Random maps:
@@ -260,13 +258,13 @@ Steps:
 #### Domain randomization:
 [Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing model trained in simulation to the real wold, and has been elegantly incorporated in Sparrow, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and set `colorful` and `state_noise` to be True, and the simulation parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps) would be randomly generated in each stream of the vectorized Sparrow environment.
 
-### Simulation Speed
+### Simulation Speed:
 If `render_mode=None` or `render_mode="rgb_array"`, Sparrow would run at its maximum simulation speed (depending on the hardware). However, if `render_mode="human"`, there would be three options regarding the simulation speed:
 - `render_speed == 'fast'`: render the Sparrow in a pygame window with maximum FPS
 - `render_speed == 'slow'`: render the Sparrow in a pygame window with 5 FPS. Might be useful when debuging.
 - `render_speed == 'real'`: render the Sparrow in a pygame window with **1/ctrl_interval** FPS, in accordance with the real world speed.
 
-### Customize your own maps
+### Customize your own maps:
 Sparrow takes `.png` images as its maps, e.g. the `map0.png`~`map15.png` in `SparrowV0/envs/train_maps/`. Therefore, you can draw your own maps with any image process software easily and conveniently, as long as it satisfies the following requirements:
 - saved in `.png` format
 - resolution (namely the map size) equals to 366×366
@@ -275,7 +273,7 @@ Sparrow takes `.png` images as its maps, e.g. the `map0.png`~`map15.png` in `Spa
 
 **Important:** please do not delete or modify the `SparrowV0/envs/train_maps/map0.png`
 
-### AutoReset
+### AutoReset:
 The environment copies inside a vectorized environment may be done (terminated or truncated) in different timesteps. Consequently, it is inefficient or even improper to call the *env.reset()* function to reset all copies whenever one copy is done, necessitating the design of **AutoReset** machanism. Since the Sparrow inherits the `gym.vector`, it also inherits its AutoReset machanism. That is, whenever the *env.step()* leads to ternimation or truncation, it will reset the current episode immediately and output the reseted state (rather than the next state), as illustrated bellow:
 
 <img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/AutoReset.svg" align="center" width="100%"/>
