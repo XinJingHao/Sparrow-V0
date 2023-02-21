@@ -40,6 +40,7 @@ Then you can install **gym**, **pygame**, **numpy** via:
 ```bash
 pip3 install gym==0.26.2 pygame==2.1.2 numpy==1.23.4
 ```
+Additionally, we recommended ` python>=3.9.0`. Although other version might also work. 
 
 ## Quick Start
 
