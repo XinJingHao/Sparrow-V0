@@ -18,10 +18,10 @@
 - **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Fast data collection; Single environment is also supported)
 - **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise and maps can be randomized while training)
 - **Lightweight** (30kb, pure Python files. Only import, never worry about installation)
-- **Accept image as maps** (Customize your own environments easily and rapidly)
+- **Accept image as map** (Customize your own environments easily and rapidly)
 - **Ubuntu/Windows** are both supported
 - **Standard Gym API with both [Pytorch](https://pytorch.org/)/[Numpy](https://numpy.org/) data flow**
-- **GPU/CPU are both acceptable** (If you use Pytorch to build your RL model, you can run you RL model and Sparrow both on GPU. Then you don't need to transfer the transitions from CPU to GPU anymore.)
+- **GPU/CPU are both acceptable** (If you use Pytorch to build your RL model, you can run your RL model and Sparrow both on GPU. Then you don't need to transfer the transitions from CPU to GPU anymore.)
 
 ## Installation
 
@@ -50,7 +50,7 @@ python play_with_keyboard.py
 ```
 
 ## Train a DDQN model with Sparrow
-The Sparrow is mobile robot simulator mainly designed for Deep Reinforcement Learning. In this section, we have prepared two python scripts to show you how to train a [DDQN](https://ojs.aaai.org/index.php/AAAI/article/download/10295/10154) model (Other Pytorch implementations of popular DRL algorithms are available at [here](https://github.com/XinJingHao/RL-Algorithms-by-Pytorch)) with **single** Sparrow and **vectorized** Sparrow. 
+The Sparrow is a mobile robot simulator mainly designed for Deep Reinforcement Learning. In this section, we have prepared two python scripts to show you how to train a [DDQN](https://ojs.aaai.org/index.php/AAAI/article/download/10295/10154) model (Other Pytorch implementations of popular DRL algorithms are available [here](https://github.com/XinJingHao/RL-Algorithms-by-Pytorch)) with **single** Sparrow and **vectorized** Sparrow. 
 
 ### Start training:
 To train a DDQN model with **single** Sparrow, you can run:
@@ -72,14 +72,14 @@ python train_DDQN_vector.py --actor_envs 5
 
 <img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/ep_r.svg" align="right" width="35%"/>
 
-For both scripts, we have incorporated **tensorboard** to visualize the training curve, as shown in the right. To enable it, you can just set the `write` to True, e.g.
+For both scripts, we have incorporated **tensorboard** to visualize the training curve, as shown on the right. To enable it, you can just set the `write` to True, e.g.
 ```bash
 python train_DDQN_single.py --write True
 ```
-The training curve will be saved at the `runs` folder, for more details about how to install and use tensorboard, please click [here](https://pytorch.org/docs/stable/tensorboard.html). Also, you are free to use your own data visualization tools by modifying the scripts.
+The training curve will be saved in the `runs` folder, for more details about how to install and use tensorboard, please click [here](https://pytorch.org/docs/stable/tensorboard.html). Also, you are free to use your own data visualization tools by modifying the scripts.
 
 ### Play with trained model:
-During training, the DDQN model will be saved at the `model` folder every 10k steps (e.g. `model/10k.pth`). After training, you can play with it via:
+During training, the DDQN model will be saved in the `model` folder every 10k steps (e.g. `model/10k.pth`). After training, you can play with it via:
 ```bash
 python train_DDQN_single.py --render True --Loadmodel True --ModelIdex 10
 ```
@@ -119,11 +119,11 @@ if __name__ == '__main__':
     envs = gym.vector.AsyncVectorEnv([lambda: gym.make('Sparrow-v0', np_state = True) for _ in range(N)])
 ```
 
-Here, `N`is the number of vectorized environments. In this context, the RL model should interact with the environment in a batched manner. And the dimension of **s, a, r, terminated, truncated** are **(N,32), (N,), (N,), (N,), (N,)** respectively. Note that **np_state=Ture** means the state will be returned in *numpy.narray*. More parameter setting will be introduced in the next section.
+Here, `N`is the number of vectorized environments. In this context, the RL model should interact with the environment in a batched manner. And the dimension of **s, a, r, terminated, truncated** are **(N,32), (N,), (N,), (N,), (N,)** respectively. Note that **np_state=Ture** means the state will be returned in *numpy.narray*. More parameter settings will be introduced in the next section.
 
 ### Basic parameters:
 
-There are 9 parameters could be configured when creating Sparrow:
+There are 9 parameters that could be configured when creating Sparrow:
 
 ```python
 env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render_mode, render_speed, evaluator_mode, eval_map)
@@ -133,25 +133,25 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
   
   - The device that runs the Sparrow
     
-  - Should be one of `'cpu'`/`'cuda:0'`. We suggest using `'cuda:0'` (GPU) to accelerate simulation
+  - Should be one of `'cpu'`/`'cuda:0'`. We suggest using `'cuda:0'` (GPU) to accelerate the simulation
     
 - **ld_num (int; default `27`)**: 
-  - number of LiDAR rays.
+  - The number of LiDAR rays.
   
 - **np_state (bool; default `False`)**:
   
-  - `False`: return state in *torch.tensor* (will be on same device as dvc)
+  - `False`: return state in *torch.tensor* (will be on the same device as dvc)
     
   - `True`: return state in *numpy.ndarray* (will be on CPU)
     
-  - When using vectorized Env, np_state should be True, because gym.vector only support data in *numpy.ndarray*
+  - When using vectorized Env, np_state should be True, because gym.vector only supports data in *numpy.ndarray*
     
 - **colorful (bool; default `False`)**:
-  - if `True`, the follow items will be randomized:
+  - if `True`, the following items will be randomized:
   
     - physical parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise)
     
-    - initial position of the robot at the beginning of each episode
+    - the initial position of the robot at the beginning of each episode
     
     - maps
     
@@ -167,10 +167,10 @@ env = gym.make('Sparrow-v0',dvc, ld_num, np_state, colorful, state_noise, render
   - `None`: not render anything
     
 - **render_speed (string; default `'fast'`)**:
-  -  control the rendering speed, should be one of `'fast'`/`'real'`/`'slow'`
+  -  control the rendering speed; should be one of `'fast'`/`'real'`/`'slow'`
   
 - **evaluator_mode (bool; default `False`)**: 
-  - if `True`, *env.reset()* will not swap maps and robot will always be initialized in bottom left corner.
+  - if `True`, *env.reset()* will not swap maps and the robot will always be initialized in the bottom left corner.
   
 - **eval_map (string; default `None`)**:
   -  if *evaluator_mode=True*, you need to designate the map on which you want to evaluate. And *eval_map* should be its absolute address, e.g. `os.getcwd()+'SparrowV0/envs/train_maps/map4.png'`
