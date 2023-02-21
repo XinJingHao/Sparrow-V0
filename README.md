@@ -28,14 +28,14 @@
 The dependencies for Sparrow are:
 
 ```bash
+torch >= 1.13.1
 gym >= 0.26.2
 pygame >= 2.1.2
 numpy >= 1.23.4
-torch >= 1.13.1
 ```
 You can install **torch** by following the guidence from its [Official website](https://pytorch.org/get-started/locally/). We strongly suggest you install the **CUDA 11.7** version.
 
-You can install **gym**, **pygame**, **numpy** via:
+Then you can install **gym**, **pygame**, **numpy** via:
 
 ```bash
 pip3 install gym==0.26.2 pygame==2.1.2 numpy==1.23.4
@@ -45,7 +45,7 @@ pip3 install gym==0.26.2 pygame==2.1.2 numpy==1.23.4
 
 ## Quick Start:
 
-After installation, you can play with Sparrow with your keyboard (up/down/left/right button) via:
+After installation, you can play with Sparrow with your keyboard (up/down/left/right button) to test if you have installed it succesfully :
 
 ```bash
 python play_with_keyboard.py
