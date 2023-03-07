@@ -66,7 +66,7 @@ In order to facilitate data collection and take full advantage of the parallel c
 python train_DDQN_vector.py
 ```
 
-By default, the above two scripts will run on your GPU, if GPU is accessible, otherwise CPU. Specifically, in `train_DDQN_vector.py`, the Sparrow is vectorized by 10 copies. If this exceeds your maximum GPU memories, you can reduce the copies by setting fewer `actor_envs`:
+By default, the above two scripts will run on your GPU, if GPU is accessible, otherwise CPU. Specifically, in `train_DDQN_vector.py`, the Sparrow is vectorized by 10 copies. If this exceeds your maximum GPU memories, you can reduce the copies by setting fewer `actor_envs`, e.g. use 5 copies of environments:
 ```bash
 python train_DDQN_vector.py --actor_envs 5
 ```
