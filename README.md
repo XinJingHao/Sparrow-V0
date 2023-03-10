@@ -194,7 +194,7 @@ The LiDAR perception range is 100cm×270°, with an accuracy of 3 cm. The radius
 
 The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, respectively. The control frequency of the robot is 10Hz. And we use a simple but useful model to describe the kinematics of the robot
 
-$$[V^{t+1}_{linear},\ V^{t+1}_{angular}] = K·[V^{t}_{linear},\ V^{t}_{angular}]+(1-K)·[V^{target}_{linear},\ V^{target}_{angular}]$$
+$$[V^{i+1}_{linear},\ V^{i+1}_{angular}] = K·[V^{i}_{linear},\ V^{i}_{angular}]+(1-K)·[V^{target}_{linear},\ V^{target}_{angular}]$$
 
 Here, **K** is a hyperparameter between (0,1), describing the combined effect of inertia and friction, default: 0.6. The parameters mentioned in this section can be found in the *Robot initialization* and *Lidar initialization* part of `SparrowV0/envs/sparrow_v0.py` and customized according to your own scenario.
 
