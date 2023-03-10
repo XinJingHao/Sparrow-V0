@@ -196,7 +196,7 @@ The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, res
 
 $$[V^{i+1}_{linear},\ V^{i+1}_{angular}] = K·[V^{i}_{linear},\ V^{i}_{angular}]+(1-K)·[V^{target}_{linear},\ V^{target}_{angular}]$$
 
-Here, **K** is a hyperparameter between (0,1), describing the combined effect of inertia and friction, default: 0.6. The parameters mentioned in this section can be found in the *Robot initialization* and *Lidar initialization* part of `SparrowV0/envs/sparrow_v0.py` and customized according to your own scenario.
+Here, **K** is a hyperparameter between (0,1), describing the combined effect of inertia, friction and the underlying velocity control algorithm, default: 0.6. The parameters mentioned in this section can be found in the *Robot initialization* and *Lidar initialization* part of `SparrowV0/envs/sparrow_v0.py` and customized according to your own scenario.
 
 
 
