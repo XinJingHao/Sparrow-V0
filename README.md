@@ -1,6 +1,6 @@
 
 <div align="center">
-  <a ><img width="300px" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/LOGO%20sparrow.svg"></a>
+  <a ><img width="300px" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/LOGO%20sparrow.jpg"></a>
 </div>
 
 ## A Reinforcement Learning Friendly Simulator for Mobile Robot
