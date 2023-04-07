@@ -8,6 +8,7 @@ import os, shutil
 import argparse
 from datetime import datetime
 import torch.nn.functional as F
+import multiprocessing
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -279,4 +280,5 @@ class LinearSchedule(object):
 		return self.initial_p + fraction * (self.final_p - self.initial_p)
 
 if __name__ == '__main__':
-    main(opt)
+	multiprocessing.set_start_method('spawn')
+	main(opt)
