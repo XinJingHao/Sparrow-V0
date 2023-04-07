@@ -3,7 +3,7 @@
   <a ><img width="300px" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/LOGO%20sparrow.svg"></a>
 </div>
 
-## A Reinforcement Learning Friendly Simulator for Mobile Robot[Ubuntu系统下,Vector_Spawn的问题没有解决]
+## A Reinforcement Learning Friendly Simulator for Mobile Robot
 
 <div align="center">
 <img width="100%" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/Show_SparrowV0.gif">
