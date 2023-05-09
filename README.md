@@ -285,15 +285,15 @@ The environment copies inside a vectorized environment may be done (terminated o
 To cite this repository in publications:
 
 ```bibtex
-@misc{Sparrow_v0,
-  author = {Jinghao Xin},
-  title = {Sparrow: A Reinforcement Learning Friendly Simulator for Mobile Robot},
-  year = {2023},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/XinJingHao/Sparrow-V0}},
+@article{Color2023JinghaoXin,
+  title={Train a Real-world Local Path Planner in One Hour via Partially Decoupled Reinforcement Learning and Vectorized Diversity},
+  author={Jinghao Xin, Jinwoo Kim, Zhi Li, and Ning Li},
+  journal={arXiv preprint arXiv:2305.04180},
+  url={https://doi.org/10.48550/arXiv.2305.04180},
+  year={2023}
 }
 ```
+
 ## Writing in the end
 The name "Sparrow" actually comes from an old saying *“The sparrow may be small but it has all the vital organs.”* Hope you enjoy using Sparrow! 
 
