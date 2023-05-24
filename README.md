@@ -154,7 +154,7 @@ env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, rende
   
     - physical parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise)
     
-    - the initial position of the robot at the beginning of each episode
+    - the initial point of the robot at the beginning of each episode(Otherwise the robot will be initialized at the bottom left corner with a small noise)
     
     - maps
     
