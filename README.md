@@ -15,7 +15,7 @@
 
 ## Features
 
-- **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Fast data collection; Single environment is also supported)
+- **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Enable fast data collection; Single environment is also supported)
 - **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, maximum velocity, inertia, friction, magnitude of sensor noise and maps can be randomized while training)
 - **Lightweight** (Consume only 150~200 mb RAM or GPU memories per environment)
 - **Standard Gym API with both [Pytorch](https://pytorch.org/)/[Numpy](https://numpy.org/) data flow**
