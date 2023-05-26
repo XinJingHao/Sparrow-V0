@@ -64,6 +64,7 @@ class SparrowV0Env(gym.Env):
             self.map_idx = 0 if eval_map[-8:] == 'map0.png' else 1 # index of the eval map. We only distinguish 0 and 1 in evaluator_mode.
         else:
             self.maps = np.sort(os.listdir(os.getcwd() + '/SparrowV0/envs/train_maps'))
+            # ['map0.png' 'map1.png' 'map10.png' 'map11.png' ... 'map14.png' 'map15.png' 'map2.png' 'map3.png' ... 'map9.png']
             if self.colorful:
                 if self.np_random.random() < 0.1: self.map_idx = 0 # at least 10% maps are map0.png(with random obstacles), more robust for trainning
                 else: self.map_idx = self.np_random.integers(0,len(self.maps))
