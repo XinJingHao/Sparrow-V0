@@ -156,7 +156,7 @@ env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, rende
     
     - the initial point of the robot at the beginning of each episode(Otherwise the robot will be initialized at the bottom left corner with a small noise)
     
-    - maps
+    - maps (the map will be swaped every `swap_ferq` episodes)
     
 - **state_noise (bool; default `False`)**:
   - if `True`: the state of the robot will contain uniformly distributed noise (it doesn't impact the accuracy of simulation)
@@ -173,7 +173,7 @@ env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, rende
   -  control the rendering speed; should be one of `'fast'`/`'real'`/`'slow'`
   
 - **evaluator_mode (bool; default `False`)**: 
-  - if `True`, *env.reset()* will not swap maps and the robot will always be initialized in the lower left corner.
+  - if `True`, maps will not be swaped, and the robot will always be initialized in the lower left corner, even though `colorful` is `True`.
   
 - **eval_map (string; default `None`)**:
   -  if *evaluator_mode=True*, you need to designate the map on which you want to evaluate. And *eval_map* should be its absolute address, e.g. `os.getcwd()+'SparrowV0/envs/train_maps/map4.png'`
@@ -256,6 +256,8 @@ The initial place of the robot could be randomized so that more state space coul
 - open `generate_startpoints.py` and set the map you are going to work on at `main(map_name='map1')`
 - run `generate_startpoints.py` and use the left mouse button to designate random initialization points
 - press the `Esc` button to save these points, which would be saved in `SparrowV0/envs/train_maps_startpoints` with the same name as the map in `.npy` format.
+
+Note that if one map support `Random initialization`, it will be flaped with a probability of `0.5` every `swap_freq` episodes to enhance the generalization ability of the trained agent additionally.
 
 #### Domain randomization:
 [Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing the model trained in simulation to the real world and has been elegantly incorporated in Sparrow, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and set `colorful` and `state_noise` to be True, and the simulation parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps) would be randomly generated in each copy of the vectorized Sparrow environment.
