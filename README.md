@@ -232,7 +232,7 @@ We strongly suggest not using the **Stop** action when training an RL model, bec
 #### Reward:
 If the robot collided with the obstacle, it would receive a negative reward of -10 and the episode would be terminated. If the robot arrived at the target area (the upper right corner of the map), it would receive a positive reward of 75 and the episode would be terminated as well. Otherwise, the robot would receive a reward according to:
 $$reward = 0.3r_{d1} + 0.1r_{d2}+0.3r_v+0.3r_{\alpha}+0.1r_{d}$$
-where $r_{d1}$ and $r_{d2}$ are negatively correlated to $d1$ and $d2$ (recall the illustration in the **State** subsection), where $0 < r_{d1},r_{d2} \leq 0$; $r_v$=1 if the linear velocity of the robot exceeds half of its maximum linear velocity, otherwise 0; $r_{\alpha}$ is negatively correlated to the absolute value of $\alpha$; $r_d$=-1 if the closest distance between robot and obstacle is smaller than 30 cm, otherwise 0.
+where $r_{d1}$ and $r_{d2}$ are negatively correlated to $d1$ and $d2$ (recall the illustration in the **State** subsection), where $0 < r_{d1},r_{d2} \leq 0$; $r_v$=1 if the linear velocity of the robot exceeds half of its maximum linear velocity, otherwise 0; $r_{\alpha}$ is negatively correlated to the absolute value of $\alpha$; $r_d$ decreases from 0 to -1 if the closest distance between robot and obstacle is smaller than 30 cm.
 
 #### Termination:
 The episode would be terminated only when the robot collides with the obstacles or reaches the target area.
