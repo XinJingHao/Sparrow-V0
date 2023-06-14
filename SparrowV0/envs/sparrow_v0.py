@@ -207,7 +207,10 @@ class SparrowV0Env(gym.Env):
         # 烟花式扫描
         for i in range( int((self.ld_range-self.car_radius)/self.ld_acc) + 2 ): # 多扫2次，让最大值超过self.ld_range，便于clamp
             # 更新雷达末端位置
+            
+            # 判断ld_end_gd的坐标是否在bound_gd中, eg: ld_end_gd=[[1,2], [3,4], [5,6]];bound_gd=[[0,0],[5,6],[1,1],[2,2],[3,3],[1,2],[4,4]];goon=[True, False, True]
             pre_goon = (self.ld_end_gd.unsqueeze(1).repeat(1, bound_num_in, 1) - bound_gd_in).bool()  # 将雷达端点坐标扩充为物体边界栅格总数，相减，等于0处表示ld坐标在bound坐标里
+            # pre_goon = (self.ld_end_gd[:,None,:] - self.bound_gd).bool() # 可以替换上一行，GPU上会快一些，CPU上会慢一些
             goon = torch.all(torch.any(pre_goon, dim=-1), dim=-1) # 通过一系列与、或操作，获得最终结果
             self.ld_end_wd += (goon.unsqueeze(-1) * increment)  # 更新雷达末端世界坐标,每次射 ld_acc cm
             self.ld_end_gd = self._world_2_grid(self.ld_end_wd)# 更新雷达末端栅格坐标（必须更新，下一轮会调用）
