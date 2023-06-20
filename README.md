@@ -296,6 +296,11 @@ To cite this repository in publications:
 }
 ```
 
+## Maintenance History
++ 2023.6.20
+  + the duplicated part *Map initialization* in `SparrowV0Env.__init__()` and `SparrowV0Env.reset()` is removed from `SparrowV0Env.__init__()`
+  + a more reasonable *AutoTruncation* mechenisim is impelemented, where the `auto_coef` parameters are used to control the truncation strengh.
+
 ## Writing in the end
 The name "Sparrow" actually comes from an old saying *“The sparrow may be small but it has all the vital organs.”* Hope you enjoy using Sparrow! 
 
