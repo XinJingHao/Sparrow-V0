@@ -297,7 +297,7 @@ To cite this repository in publications:
 ```
 
 ## Maintenance History
-+ 2023.6.20
++ 2023/6/20
   + the duplicated part *Map initialization* in `SparrowV0Env.__init__()` and `SparrowV0Env.reset()` is removed from `SparrowV0Env.__init__()`
   + a more reasonable *AutoTruncation* mechenisim is impelemented, where the `auto_coef` parameters are used to control the truncation strengh.
 
