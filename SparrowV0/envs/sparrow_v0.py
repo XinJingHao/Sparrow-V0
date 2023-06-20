@@ -29,6 +29,8 @@ All rights reserved.
 “The sparrow may be small but it has all the vital organs.”
 Developed by Jinghao Xin. Github：https://github.com/XinJingHao
 2023/2/21
+
+Current version: 2023/6/20
 '''
 
 # Color of obstacles when render
@@ -57,26 +59,15 @@ class SparrowV0Env(gym.Env):
         self.evaluator_mode = evaluator_mode
         # if True, reset() will not swap maps and robot always inits in bottom left corner.
 
-        ''' Map initialization '''
+        ''' Map initialization: map_idx // map // random_start/start_points '''
         if self.evaluator_mode:  # used to evaluate a single map
             self.random_start = False # robot always inits in bottom left corner.
             self.map = pygame.image.load(eval_map) # load map into pygame, eval_map should be the address of one map
             self.map_idx = 0 if eval_map[-8:] == 'map0.png' else 1 # index of the eval map. We only distinguish 0 and 1 in evaluator_mode.
         else:
-            self.maps = np.sort(os.listdir(os.getcwd() + '/SparrowV0/envs/train_maps'))
+            # we only init self.maps here. map_idx // map // random_start/start_points will be generated at self.reset()
             # ['map0.png' 'map1.png' 'map10.png' 'map11.png' ... 'map14.png' 'map15.png' 'map2.png' 'map3.png' ... 'map9.png']
-            if self.colorful:
-                if self.np_random.random() < 0.1: self.map_idx = 0 # at least 10% maps are map0.png(with random obstacles), more robust for trainning
-                else: self.map_idx = self.np_random.integers(0,len(self.maps))
-            else:
-                self.map_idx = 0
-            self.map_name = self.maps[self.map_idx] # 'map_.png'
-            self.map = pygame.image.load(os.getcwd() + '/SparrowV0/envs/train_maps/' + self.map_name) # load map_.png map
-            try:
-                self.start_points = np.load(os.getcwd() + '/SparrowV0/envs/train_maps_startpoints/' + self.map_name[0:-4]+'.npy')
-                self.random_start = True # existing corresponding random start points file
-            except:
-                self.random_start = False
+            self.maps = np.sort(os.listdir(os.getcwd() + '/SparrowV0/envs/train_maps'))
         self.random_start_rate = 1.0
 
         ''' Pygame initialization '''
@@ -127,6 +118,8 @@ class SparrowV0Env(gym.Env):
         # used to prevent robot from circling around and thus generating low quality data
         self.trunc_len = int(1.5 * 2*torch.pi/self.v_angular_max/self.ctrl_interval) # steps needed for turn 1.5 circles
         self.v_linear_buffer = deque(maxlen=self.trunc_len)
+        self.auto_coef = 0.92 # for oldversion, auto_coef=1.0; one can get a more frequent truncation mechanism by using smaller auto_coef
+
 
         ''' Lidar initialization '''
         self.ld_acc = 3 # lidar scan accuracy (cm). Reducing accuracy can accelerate simulation;
@@ -250,17 +243,15 @@ class SparrowV0Env(gym.Env):
     def reset(self, seed=None, options=None):
         super().reset(seed=seed) # seed self.np_random
         self.ep_step = 0
-        self.ep_counter += 1
 
+        '''Step1: initialize maps --> self.map_idx // self.map // self.random_start/self.start_points'''
         # swap the training map according to swap_ferq, ensuring 'colorful' covers all the maps.
         if (not self.evaluator_mode) and (self.ep_counter % self.swap_ferq == 0):
-
             if self.colorful:
                 # at least 10% maps are map0.png(with random obstacles), more robust for trainning
-                if self.np_random.random() < 0.1:
-                    self.map_idx = 0
-                else:
-                    self.map_idx = self.np_random.integers(0, len(self.maps))
+                if self.np_random.random() < 0.1: self.map_idx = 0
+                else: self.map_idx = self.np_random.integers(0, len(self.maps))
+
             else:
                 self.map_idx = 0
 
@@ -285,6 +276,7 @@ class SparrowV0Env(gym.Env):
             except:
                 self.random_start = False
 
+        '''Step2: initialize the car_state of robot'''
         # if random_start is supported, randomly init the pose of the robot with a linear decreasing probability
         if self.random_start and self.np_random.random() < self.random_start_rate:
             start_idx = self.np_random.integers(0, len(self.start_points))
@@ -302,20 +294,21 @@ class SparrowV0Env(gym.Env):
                                            0.],# v_angular
                                            device=self.dvc)
 
-        # ctrl_pipe reset with [0,0]
+        '''Step3: clear ctrl_pipe with [0,0]'''
         for i in range(self.ctrl_delay+1):
             self.ctrl_pipe.append(len(self.a_space)-1)
 
-        # obstacle reset
+        '''Step4: obstacle reset(based on self.map)'''
         self._generate_obstacle()
 
-        # generate init observation
+        '''Step5: generate initial observation'''
         observation, info = self._get_obs(), {"info":None}
 
         # render
         if self.render_mode == "human":
             self._render_frame()
 
+        self.ep_counter += 1
         return observation, info
 
     def _generate_obstacle(self):
@@ -458,8 +451,9 @@ class SparrowV0Env(gym.Env):
         if not self.evaluator_mode:
             # put linear velocity into deque buffer
             self.v_linear_buffer.append(self.car_state[3].item())
-            # if circling around steps exceeds min_ep_steps, truncate the current episode
-            if (self.ep_step > self.min_ep_steps) and (np.array(self.v_linear_buffer)<0.5*self.v_linear_max).all() :
+            # if circling around steps exceeds trunc_len*auto_coef, truncate the current episode ## loose constraint, more truncation
+            if (self.ep_step > self.min_ep_steps) \
+                    and ((np.array(self.v_linear_buffer) < 0.5 * self.v_linear_max).sum() > self.auto_coef * self.trunc_len):
                 truncated = True
             else:
                 truncated = False
