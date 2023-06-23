@@ -3,7 +3,7 @@
   <a ><img width="300px" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/LOGO%20sparrow.jpg"></a>
 </div>
 
-## A Reinforcement Learning Friendly Simulator for Mobile Robot
+## Sparrow-V0: A Reinforcement Learning Friendly Simulator for Mobile Robot
 
 <div align="center">
 <img width="100%" height="auto" src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/Show_SparrowV0.gif">
@@ -16,7 +16,7 @@
 ## Features
 
 - **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Enable fast data collection; Single environment is also supported)
-- **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, maximum velocity, inertia, friction, magnitude of sensor noise and maps can be randomized while training)
+- **[Domain Randomization](https://arxiv.org/pdf/1703.06907.pdf%60)** (control interval, control delay, maximum velocity, inertia, friction, the magnitude of sensor noise and maps can be randomized while training)
 - **Lightweight** (Consume only 150~200 mb RAM or GPU memories per environment)
 - **Standard Gym API with both [Pytorch](https://pytorch.org/)/[Numpy](https://numpy.org/) data flow**
 - **GPU/CPU are both acceptable** (If you use Pytorch to build your RL model, you can run your RL model and Sparrow both on GPU. Then you don't need to transfer the transitions from CPU to GPU anymore.)
@@ -27,7 +27,7 @@
 
 ## Installation
 
-The dependencies for Sparrow are:
+The dependencies for Sparrow-V0 are:
 
 ```bash
 torch >= 1.13.1
@@ -35,25 +35,25 @@ gym >= 0.26.2
 pygame >= 2.1.2
 numpy >= 1.23.4
 ```
-You can install **torch** by following the guidance from its [official website](https://pytorch.org/get-started/locally/). We strongly suggest you install the **CUDA 11.7** version, but CPU version or lower CUDA version are also supported.
+You can install **torch** by following the guidance from its [official website](https://pytorch.org/get-started/locally/). We strongly suggest you install the **CUDA 11.7** version, though CPU version or lower CUDA version are also supported.
 
 Then you can install **gym**, **pygame**, **numpy** via:
 
 ```bash
 pip3 install gym==0.26.2 pygame==2.1.2 numpy==1.23.4
 ```
-Additionally, we recommended ` python>=3.9.0`. Although other version might also work. 
+Additionally, we recommended ` python>=3.9.0`. Although other versions might also work. 
 
 ## Quick Start
 
-After installation, you can play with Sparrow with your keyboard (up/down/left/right button) to test if you have installed it successfully:
+After installation, you can play with Sparrow-V0 with your keyboard (up/down/left/right button) to test if you have installed it successfully:
 
 ```bash
 python play_with_keyboard.py
 ```
 
 ## Train a DDQN model with Sparrow
-The Sparrow is a mobile robot simulator mainly designed for Deep Reinforcement Learning. In this section, we have prepared two python scripts to show you how to train a [DDQN](https://ojs.aaai.org/index.php/AAAI/article/download/10295/10154) model with **single** Sparrow and **vectorized** Sparrow. By the way, other Pytorch implementations of popular DRL algorithms can be found [here](https://github.com/XinJingHao/RL-Algorithms-by-Pytorch).
+The Sparrow-V0 is a mobile robot simulator mainly designed for Deep Reinforcement Learning. In this section, we have prepared two python scripts to show you how to train a [DDQN](https://ojs.aaai.org/index.php/AAAI/article/download/10295/10154) model with **single** Sparrow and **vectorized** Sparrow. By the way, other Pytorch implementations of popular DRL algorithms can be found [here](https://github.com/XinJingHao/RL-Algorithms-by-Pytorch).
 
 ### Start training:
 To train a DDQN model with **single** Sparrow, you can run:
@@ -75,7 +75,7 @@ python train_DDQN_vector.py --actor_envs 5
 
 <img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/ep_r.svg" align="right" width="35%"/>
 
-For both scripts, we have incorporated **tensorboard** to visualize the training curve, as shown on the right. To enable it, you can just set the `write` to True, e.g.
+Both scripts have been incorporated with **tensorboard** to visualize the training curve, as shown on the right. To enable it, you can just set the `write` to True, e.g.
 ```bash
 python train_DDQN_single.py --write True
 ```
@@ -91,7 +91,7 @@ python train_DDQN_single.py --render True --Loadmodel True --ModelIdex 10
 
 ### Create your first env:
 
-Since Sparrow has standard [Gym](https://www.gymlibrary.dev/) API, you can create the Sparrow environment via:
+Since Sparrow-V0 has standard [Gym](https://www.gymlibrary.dev/) API, you can create the Sparrow environment via:
 
 ```python
 import SparrowV0
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     envs = gym.vector.AsyncVectorEnv([lambda: gym.make('Sparrow-v0', np_state = True) for _ in range(N)])
 ```
 
-Here, `N`is the number of vectorized environments. In this context, the RL model should interact with the environment in a batched manner. And the dimension of **s, a, r, terminated, truncated** are **(N,32), (N,), (N,), (N,), (N,)** respectively. Note that **np_state=Ture** means the state will be returned in *numpy.narray*. More parameter settings will be introduced in the next section.
+Here, `N`is the number of vectorized environments. In this context, the RL model should interact with the environment in a batched manner. And the dimension of **s, a, r, terminated, truncated** are **(N,32), (N,), (N,), (N,), (N,)** respectively. Note that **np_state=Ture** means the state will be returned in *numpy.ndarray*. More parameter settings will be introduced in the next section.
 
 ### Basic parameters:
 
@@ -156,7 +156,7 @@ env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, rende
     
     - the initial point of the robot at the beginning of each episode(Otherwise the robot will be initialized at the bottom left corner with a small noise)
     
-    - maps (the map will be swaped every `swap_ferq` episodes)
+    - maps (the map will be swapped every `swap_ferq` episode)
     
 - **state_noise (bool; default `False`)**:
   - if `True`: the state of the robot will contain uniformly distributed noise (it doesn't impact the accuracy of simulation)
@@ -173,7 +173,7 @@ env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, rende
   -  control the rendering speed; should be one of `'fast'`/`'real'`/`'slow'`
   
 - **evaluator_mode (bool; default `False`)**: 
-  - if `True`, maps will not be swaped, and the robot will always be initialized in the lower left corner, even though `colorful` is `True`.
+  - if `True`, maps will not be swapped, and the robot will always be initialized in the lower left corner, even though `colorful` is `True`.
   
 - **eval_map (string; default `None`)**:
   -  if *evaluator_mode=True*, you need to designate the map on which you want to evaluate. And *eval_map* should be its absolute address, e.g. `os.getcwd()+'SparrowV0/envs/train_maps/map4.png'`
@@ -183,7 +183,7 @@ env = gym.make('Sparrow-v0', dvc, ld_num, np_state, colorful, state_noise, rende
 
 ### Coordinate Frames:
 
-There are three coordinate frames in Sparrow as shown on the right. The ground truth position of the robot is calculated in **World Coordinate Frame**, which will be normalized and represented in **Relative Coordinate Frame** to comprise the RL state variable. The **Grid Coordinate Frame** comes from *pygame*, used to draw the robot, obstacles, target area, etc.
+There are three coordinate frames in Sparrow-V0 as shown on the right. The ground truth position of the robot is calculated in **World Coordinate Frame**, which will be normalized and represented in **Relative Coordinate Frame** to comprise the RL state variable. The **Grid Coordinate Frame** comes from *pygame*, used to draw the robot, obstacles, target area, etc.
 
 
 ### Basic Robot Information:
@@ -196,13 +196,13 @@ The maximum linear and angular velocity of the robot is 18 cm/s and 1 rad/s, res
 
 $$[V^{i+1}\_{linear},\ V^{i+1}\_{angular}] = K·[V^{i}\_{linear},\ V^{i}\_{angular}]+(1-K)·[V^{target}\_{linear},\ V^{target}\_{angular}]$$
 
-Here, **K** is a hyperparameter between (0,1), describing the combined effect of inertia, friction and the underlying velocity control algorithm, default: 0.6. The parameters mentioned in this section can be found in the *Robot initialization* and *Lidar initialization* part of `SparrowV0/envs/sparrow_v0.py` and customized according to your own scenario.
+Here, **K** is a hyperparameter between (0,1), describing the combined effect of inertia, friction, and the underlying velocity control algorithm, default: 0.6. The parameters mentioned in this section can be found in the *Robot initialization* and *Lidar initialization* part of `SparrowV0/envs/sparrow_v0.py` and customized according to your own scenario.
 
 
 
 ### RL representation:
 
-The basic task in Sparrow is about driving the robot from the start point to the end point as fast as possible, without colliding with obstacles. To this end, in the following sub-sections, we will define several basic components of Markov Decision Process.
+The basic task in Sparrow is about driving the robot from the start point to the end point as fast as possible, without colliding with obstacles. To this end, in the following sub-sections, we will define several basic components of the Markov Decision Process.
 
 #### State:
 
@@ -243,7 +243,7 @@ The episode would be truncated if one of these situations happens:
 - the robot rotates more than 1.5 times in place when _evaluator_mode=False_ (to prevent the robot from generating low-quality data when training)
 
 ### Improving the generalization ability:
-In this section, we will introduce four tips incorporated into Sparrow that could improve the generalization ability of the trained model.
+In this section, we will introduce four tips incorporated into Sparrow-V0 that could improve the generalization ability of the trained model.
 
 #### Random maps:
 To prevent the robot from overfitting in one specific map, we have prepared 16 different training maps in `SparrowV0/envs/train_maps`. While training, these maps will swap automatically according to the `self.swap_ferq` in `sparrow_v0.py`. This mechanism can be disabled by setting `evaluator_mode=True`. In this case, you have to designate the map you would like to use by passing the absolute address of the map to `eval_map`.
@@ -257,10 +257,10 @@ The initial place of the robot could be randomized so that more state space coul
 - run `generate_startpoints.py` and use the left mouse button to designate random initialization points
 - press the `Esc` button to save these points, which would be saved in `SparrowV0/envs/train_maps_startpoints` with the same name as the map in `.npy` format.
 
-Note that if one map support `Random initialization`, it will be flaped with a probability of `0.5` every `swap_freq` episodes to enhance the generalization ability of the trained agent additionally.
+Note that if one map support `Random initialization`, it will be flipped with a probability of `0.5` every `swap_freq` episode to enhance the generalization ability of the trained agent additionally.
 
 #### Domain randomization:
-[Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing the model trained in simulation to the real world and has been elegantly incorporated in Sparrow, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and set `colorful` and `state_noise` to be True, and the simulation parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps) would be randomly generated in each copy of the vectorized Sparrow environment.
+[Domain randomization](https://arxiv.org/pdf/1703.06907.pdf%60) has been proven to be an effective method for generalizing the model trained in simulation to the real world and has been elegantly incorporated in Sparrow-V0, taking full advantage of its vectorizable feature. You can enable Domain randomization by creating vectorized Sparrow and setting `colorful` and `state_noise` to be True, and the simulation parameters (control interval, control delay, max linear velocity, max angular velocity, inertia, friction, sensor noise, magnitude of noise, maps) would be randomly generated in each copy of the vectorized Sparrow environment.
 
 ### Simulation Speed:
 If `render_mode=None` or `render_mode="rgb_array"`, Sparrow would run at its maximum simulation speed (depending on the hardware). However, if `render_mode="human"`, there would be three options regarding the simulation speed:
@@ -271,14 +271,14 @@ If `render_mode=None` or `render_mode="rgb_array"`, Sparrow would run at its max
 ### Customize your own maps:
 Sparrow takes `.png` images as its maps, e.g. the `map0.png`~`map15.png` in `SparrowV0/envs/train_maps/`. Therefore, you can draw your own maps with any image process software easily and conveniently, as long as it satisfies the following requirements:
 - saved in `.png` format
-- resolution (namely the map size) equals to 366×366
+- resolution (namely the map size) equals 366×366
 - obstacles are in black (0,0,0) and free space is in white (255,255,255)
 - adding a fence to surround the map so that the robot cannot run out of the map
 
 **Important:** please do not delete or modify the `SparrowV0/envs/train_maps/map0.png`
 
 ### AutoReset:
-The environment copies inside a vectorized environment may be done (terminated or truncated) in different timesteps. Consequently, it is inefficient or even improper to call the *env.reset()* function to reset all copies whenever one copy is done, necessitating the design of **AutoReset** mechanism. Since the Sparrow inherits the `gym.vector`, it also inherits its AutoReset mechanism. That is, whenever the *env.step()* of a copy of the vectorized environment leads to termination or truncation, it will reset its current episode immediately and output the reset state (rather than the next state), as illustrated below:
+The environment copies inside a vectorized environment may be done (terminated or truncated) in different timesteps. Consequently, it is inefficient or even improper to call the *env.reset()* function to reset all copies whenever one copy is done, necessitating the design of **AutoReset** mechanism. Since the Sparrow-V0 inherits the `gym.vector`, it also inherits its AutoReset mechanism. That is, whenever the *env.step()* of a copy of the vectorized environment leads to termination or truncation, it will reset its current episode immediately and output the reset state (rather than the next state), as illustrated below:
 
 <img src="https://github.com/XinJingHao/Images/blob/main/Sparrow_V0/AutoReset.svg" align="center" width="100%"/>
 
