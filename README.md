@@ -21,7 +21,7 @@
 - **Standard Gym API with both [Pytorch](https://pytorch.org/)/[Numpy](https://numpy.org/) data flow**
 - **GPU/CPU are both acceptable** (If you use Pytorch to build your RL model, you can run your RL model and Sparrow both on GPU. Then you don't need to transfer the transitions from CPU to GPU anymore.)
 - **Easy to use** (30kb pure Python files. Just import, never worry about installation)
-- **Ubuntu/Windows** are both supported
+- **Ubuntu/Windows/MacOS** are all supported
 - **Accept image as map** (Customize your own environments easily and rapidly)
 - **Detailed comments on source code**
 
