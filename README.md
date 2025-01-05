@@ -13,6 +13,8 @@
 ![DRL](https://img.shields.io/badge/DRL-blueviolet)
 ![Mobile Robot](https://img.shields.io/badge/MobileRobot-ff69b4)
 
+#### Status: Deprecated
+
 ## Features
 
 - **[Vectorizable](https://www.gymlibrary.dev/content/vectorising/)** (Enable fast data collection; Single environment is also supported)
