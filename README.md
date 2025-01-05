@@ -14,6 +14,10 @@
 ![Mobile Robot](https://img.shields.io/badge/MobileRobot-ff69b4)
 
 #### Status: Deprecated
+Please refer to the latest versions:
+- [Sparrow-V1](https://github.com/XinJingHao/Sparrow-V1): Single Robot, Static environments
+- [Sparrow-V2](https://github.com/XinJingHao/Sparrow-V2): Single Robot, Dynamic/Static environments
+- [Sparrow-V3](https://github.com/XinJingHao/Sparrow-V3): Multiple Robot, Dynamic/Static environments
 
 ## Features
 
